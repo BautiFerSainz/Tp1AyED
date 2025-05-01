@@ -120,9 +120,10 @@ def sistema():
                 
     if opc == 5:
         print("El programa ha finalizado correctamente!")
+        #se cierra voluntariamente
     else:
         print("3 intentos fallidos, cerrando el programa.")
-
+        #se cierra por exceso de intentos
 
 sistema()
 
