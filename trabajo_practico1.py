@@ -29,20 +29,35 @@ def menu1():
 #Submenu de creación de Aerolinea
 
 def crearAerolinea():
-    salida = chr("X")
-    contArg = 0
-    contChi = 0
-    contBra = 0
+    salida = str("X")
+    contArg = int(0)
+    contChi = int(0)
+    contBra = int(0)
     while(salida != "N"):
-        nombreAereolinea = str(input(100)("ingrese el nombre de su aereolinea: "))
-        codigoIATA = str(input(3)("Ingrese el codigo IATA correspondiente: "))
-        descripcionAereolinea = str(input(200)("Ingrese una breve descripción: "))
-        codigoPais = str(input()("ingrese el código de país correspondiente: "))
-        while salida != "N" or salida != "S": #se usa para determinar si se busca agregar aereolineas o no
-            salida = chr(input("¿Desea terminar de agregar aerolineas? S/N").upper().strip())
+        codigoPais = str("A")
+        salida = str("X")
+        nombreAereolinea = str(input("ingrese el nombre de su aereolinea: "))
+        codigoIATA = str(input("Ingrese el codigo IATA correspondiente: "))
+        descripcionAereolinea = str(input("Ingrese una breve descripción: "))
+        while codigoPais != "ARG" and codigoPais != "BRA" and codigoPais !="CHI":
+            codigoPais = str(input("ingrese el código de país correspondiente: ").upper())
+            if codigoPais != "ARG" and codigoPais != "BRA" and codigoPais !="CHI":
+                print("codigo no valido")
+            
+        if codigoPais == "ARG":
+            contArg = contArg + 1
+                
+        elif codigoPais == "CHI":
+            contChi = contChi + 1
+                
+        elif codigoPais == "BRA":
+            contBra = contBra + 1
+        
+        while salida != "N" and salida != "S": #se usa para determinar si se busca agregar aereolineas o no
+            salida = str(input("¿Desea seguir agregando aerolineas? S/N ").upper().strip())
             if salida != "N" and salida != "S":
                 print("Carácter invalido, reingrese")
-
+    print(f"la cantidad de aereolineas creadas en Argentina son {contArg}, en Brasil son {contBra}, y en Chile son {contChi}")
 #Submenu del gestión de Aerolinea (selección de menu)
 
 def subMenu1():
@@ -86,6 +101,7 @@ def cartel():
 opc = 0
 def subMenuMain():
     global opc
+    opc = 0
     while (opc == 0):
         menu()
         opc = int(input("Ingrese su opción: "))
