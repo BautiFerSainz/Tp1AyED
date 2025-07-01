@@ -10,6 +10,7 @@ import datetime
 clave = "0"
 opc = 0
 opc2 = 0
+contArray = 0
 codModificar = 0
 usuarios = []*10
 contrasena = []*10
@@ -20,27 +21,40 @@ textoNovedad =[]*3
 fechaPublicacion =[]*3
 fechaExpiracion =[]*3
 novedades =[]*4
-vuelos= [[]*5 for i in range(20)] #creamos una lista de listas, donde cada sublista representa un vuelo
+precioVuelos = []*20
+precioVuelos = ["$1.101.150", "$550.000", "$800.220", "$670.000", "$1.670.000", "$1.250.000","$430.000", "$710.100", "$980.000", "$1.320.000", "","","","","","","","","",""]
+vuelos= [[""]*6 for i in range(20)] #creamos una lista de listas, donde cada sublista representa un vuelo
 #definimos algunos vuelos precargados
 vuelos = [
-    [1,"Aerolíneas Arg", "Buenos Aires", "Madrid", "15/07/2025", "08:30", "$1.101.150"],
-    [2,"LATAM", "Santiago", "Lima", "16/07/2025", "10:15", "$550.000"],
-    [3,"Sky Airline", "Miami", "Nueva York", "18/08/2025", "14:45", "$800.220"],
-    [4,"GOL", "Río Janeiro", "Buenos Aires", "20/08/2025", "22:30", "$670.000"],
-    [5,"LATAM", "Lima", "Nueva York", "22/08/2025", "20:30", "$1.670.000"],
-    [6,"Aerolíneas Arg", "Córdoba", "Barcelona", "25/08/2025", "09:15", "$1.250.000"],
-    [7,"LATAM", "Montevideo", "Santiago", "26/08/2025", "06:00", "$430.000"],
-    [8,"Sky Airline", "Buenos Aires", "San Pablo", "28/08/2025", "13:20", "$710.100"],
-    [9,"GOL", "San Pablo", "Quito", "29/08/2025", "15:00", "$980.000"],
-    [10,"Aerolíneas Arg", "Buenos Aires", "Roma", "30/08/2025", "19:45", "$1.320.000"],
+    ["1","Aerolíneas Arg", "Buenos Aires", "Madrid", "15/07/2025", "08:30"],
+    ["2","LATAM", "Santiago", "Lima", "16/07/2025", "10:15"],
+    ["3","Sky Airline", "Miami", "Nueva York", "18/08/2025", "14:45"],
+    ["4","GOL", "Río Janeiro", "Buenos Aires", "20/08/2025", "22:30"],
+    ["5","LATAM", "Lima", "Nueva York", "22/08/2025", "20:30"],
+    ["6","Aerolíneas Arg", "Córdoba", "Barcelona", "25/08/2025", "09:15"],
+    ["7","LATAM", "Montevideo", "Santiago", "26/08/2025", "06:00"],
+    ["8","Sky Airline", "Buenos Aires", "San Pablo", "28/08/2025", "13:20"],
+    ["9","GOL", "San Pablo", "Quito", "29/08/2025", "15:00"],
+    ["10","Aerolíneas Arg", "Buenos Aires", "Roma", "30/08/2025", "19:45"],
+    ["","","","","",""],
+    ["","","","","",""],
+    ["","","","","",""],
+    ["","","","","",""],
+    ["","","","","",""],
+    ["","","","","",""],
+    ["","","","","",""],
+    ["","","","","",""],
+    ["","","","","",""],
+    ["","","","","",""],
 ]
+
 #def CargaUsuario():
 usuarios =["admin@ventaspasajes777.com","ceo1@ventaspasajes777.com","ceo2@ventaspasajes777.com","ceo3@ventaspasajes777.com","ceo4@ventaspasajes777.com", "ceo5@ventaspasajes777.com","usuario1@ventaspasajes777.com", "usuario2@ventaspasajes777.com","",""]
 contrasena = ["admin123","ceo123","ceo456","ceo789","ceo101112","ceo131415","usuario123","usuario456","",""]
 tipo =["administrador","ceo","ceo","ceo","ceo","ceo","usuario","usuario","usuario","usuario"]
 datos = [usuarios, contrasena, tipo]
 
-codNovedad = [100,101,102]
+codNovedad = ["100","101","102"]
 textoNovedad = ["NUEVA MODALIDAD DE TRANSPORTE", "NUEVO PAPA AMERICANO", "BAJA EN LOS IMPUESTOS MUNICIPALES"]
 fechaPublicacion = ["2025/05/05","2025/05/05","2025/05/05"]
 fechaExpiracion = ["2025/05/05","2025/05/05","2025/05/05"]
@@ -309,7 +323,7 @@ def modificarNovedades(novedades):
     salidaNov = str("X")
     while salidaNov != "N":
         codModificar = (input("ingrese el codigo a modificar (los codigos validos son 100, 101, 102.): "))
-        while codModificar != 100 or codModificar != 101 or codModificar != 102:
+        while codModificar != "100" and codModificar != "101" and codModificar != "102":
             codModificar = (input("El número ingresado es invalido, reintente (los codigos validos son 100, 101, 102.): "))
         
         limpiarConsola()
@@ -338,10 +352,10 @@ def gestionNovedades(novedades):
             opc3 = int(input("Ingreso invalido, reintente: "))
         match opc3:
             case 1:limpiarConsola(),cartel()
-            case 2:limpiarConsola(),modificarNovedades(novedades,codModificar) #editar novedades
+            case 2:limpiarConsola(),modificarNovedades(novedades) #editar novedades
             case 3:limpiarConsola(),cartel()
             case 4:limpiarConsola(),verNovedades(novedades)    #ver novedades 
-            case 0:limpiarConsola(),menuAdministrador(opc)
+            case 0:limpiarConsola(),menuAdministrador(opc,novedades)
 
 #Menu de Reportes
 def printReportes():
@@ -377,15 +391,55 @@ def menuAdministrador(opc,novedades):
         case 4:limpiarConsola(),cartel(), menuAdministrador(opc,novedades)
         case 5:limpiarConsola()
         #queda vacio ya que si vale 5 se cierra el programa
+        
+def busquedaVuelos(contArray,vuelos):
+    flag = False
+    i = 0
+    while flag == False:
+        while i != contArray - 1:
+            while vuelos[i][0] == vuelos[contArray][0]:
+                vuelos[contArray][0] = input("Codigo ya usado, intente con uno nuevo: ")
+                flag = True
+            i += 1
+        if flag == True:
+            flag = False
+        else:
+            flag = True
+        
+        
 
-#crearvuelo([vuelos]):
-#rta = ""
-#rta = input("Desea ver los vuelos ya cargados? SI/NO").upper()
-#while rta != "SI" and rta != "NO"
-#rta = input("Ingreso invalido, reingrese su respuesta SI/NO").upper()
-#if rta == "SI"
-    #buscarVuelos()
-#while
+
+def crearvuelo(vuelos,precioVuelos):
+    contArray = 0
+    while contArray < len(vuelos) and vuelos[contArray][0] != "":
+        contArray += 1
+    flag1 = True
+    rta = ""
+    rta = input("Desea ver los vuelos ya cargados? S/N").upper().strip()
+    while rta != "S" and rta != "N":
+        rta = input("Ingreso invalido, reingrese su respuesta S/N").upper().strip()
+    if rta == "S":
+        buscarVuelos()
+    while contArray < 20 and flag1 == True:
+            flag1 == True
+            vuelos[contArray][0] = input("Ingrese el  código de la aerolínea: ")
+            busquedaVuelos(contArray,vuelos)
+            vuelos[contArray][1] = input("Ingrese el  nombre de su aerolinea: ")
+            vuelos[contArray][2] = input("Ingrese origen del vuelo: ")
+            vuelos[contArray][3] = input("Ingrese destino del vuelo: ")
+            vuelos[contArray][4] = pedirFecha("ingrese la fecha:")
+            vuelos[contArray][5] = input("Ingrese hora de salida: ")
+            precioVuelos[contArray]= input("Ingrese el precio de su vuelo: ")
+            salida = input("¿Desea cargar más vuelos? S/N: ").upper().strip()
+            while salida != "N" and salida != "S":
+                salida = input("ingreso no valido, ingrese S para si, N para no: ").upper().strip()
+            if salida == "N":
+                flag1 = False
+    if contArray == 20:
+        print("Se alcanzo el limite de vuelos creados.")
+
+
+
 
 
 
@@ -399,7 +453,7 @@ def menugestionVuelos(opc2):
         while opc2 < 0 or opc2 > 4:
             opc2 = int(input("ingreso invalido, reingrese: "))
         match opc2:
-            case 1: limpiarConsola(), #crearvuelo()
+            case 1: limpiarConsola(), crearvuelo(vuelos,precioVuelos)
             case 2: limpiarConsola(), #modificarvuelo()
             case 3: limpiarConsola(), #eliminarvuelo()
             case 4: limpiarConsola()
@@ -447,7 +501,7 @@ def inicioSesion(opc, opc2):
                 case "administrador":
                     limpiarConsola()
                     print("Acceso concedido!")
-                    menuAdministrador(opc,novedades,codModificar)
+                    menuAdministrador(opc,novedades)
                     
                 case "ceo":
                     limpiarConsola()
@@ -491,8 +545,9 @@ def registro(opc):
     else:
         print("No se pueden registrar más usuarios, el sistema está lleno.")
         
-    comprobacionLen(usuarios[cont],100)
-    contrasena[cont] = getpass.getpass("Ingrese su contraseña: ").strip()
+    comprobacionLen(datos[0][cont],100)
+    datos[1][cont] = getpass.getpass("Ingrese su contraseña: ").strip()
+    comprobacionLen(datos[1][cont],15)
     print("Registro exitoso!")
     limpiarConsola()
     inicioSesion(opc)
