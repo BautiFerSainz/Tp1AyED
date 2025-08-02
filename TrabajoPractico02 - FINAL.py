@@ -116,6 +116,11 @@ def pedirFecha(mensaje):
     return fecha
 
 
+def comprobacionLenContra(a,b):
+    if len(a) > b :
+        print(f"La cantidad maxima de caracteres es {b}, por favor reintente: ")
+    elif len(a) == 0 :
+        print("El espacio no puede estar vacío, por favor reintente: ")
 
 def comprobacionLen(a,b):
     while len(a) > b or len(a) == 0 or a == " ":
@@ -431,10 +436,12 @@ def crearAerolinea():
                     aereolineas[3][i] = str(input("Ingrese el código de país correspondiente (ARG, CHI, BRA) ").upper())
                     comprobacionLen(codigoPais,3)
                     if aereolineas[3][i] != "ARG" and aereolineas[3][i] != "BRA" and aereolineas[3][i] !="CHI":
+                        limpiarConsola()
                         print("Código no valido")
                 while salida != "N" and salida != "S": #se usa para determinar si se busca agregar aereolineas o no
-                    salida = str(input("¿Desea seguir agregando aerolineas? S/N ").upper().strip())
+                    salida = str(input("¿Desea seguir agregando aerolineas? S/N: ").upper().strip())
                     if salida != "N" and salida != "S":
+                        limpiarConsola()
                         print("Carácter invalido, reingrese")
                         
                 if salida == "N":
@@ -724,7 +731,6 @@ def modificarVuelo(vuelos, precioVuelos):
         limpiarConsola()
         print("No fue encontrado.")
         
-    menugestionVuelos(opc2)
 
 def eliminarVuelo(vuelos):
 
@@ -734,10 +740,10 @@ def eliminarVuelo(vuelos):
     while i < 20 and f:
         if vuelos[i][0] == codVuelo:
             f = False
-            opc = input("Codigo de vuelo encontrado, esta seguro que quiere darlo de baja? S/N: ").upper
+            opc = input("Codigo de vuelo encontrado, esta seguro que quiere darlo de baja? S/N: ").capitalize()
             while opc != "S" and opc != "N":
                 limpiarConsola()
-                opc = input("Opción invalida, ingrese nuevamente. S/N :").upper
+                opc = input("Opción invalida, ingrese nuevamente. S/N :").capitalize()
             if vuelos[i][6]  == "A":    
                 if opc == "S":
                     vuelos[i][6] = "B"
@@ -761,7 +767,7 @@ def menugestionVuelos(opc2):
             case 1: limpiarConsola(), crearVuelo(vuelos,precioVuelos) 
             case 2: limpiarConsola(), modificarVuelo(vuelos,precioVuelos)
             case 3: limpiarConsola(), eliminarVuelo(vuelos)
-            case 4: limpiarConsola(), subMenuCeo(opc, opc2)
+            case 4: limpiarConsola()
 
 
 def subMenuCeo(opc, opc2,):
@@ -782,9 +788,9 @@ def inicioSesion(opc, opc2):
     salida = "S"
     while salida == "S" and intentos < 3:
 
-        nombreUsuario = input("Ingrese su nombre de usuario: ").strip()
+        nombreUsuario = pedirNoVacio("su nombre de usuario")
         limpiarConsola()
-        comprobacionLen(nombreUsuario,100)
+
         flagNombre= False
         i= 0
         while (not flagNombre) and i < 10:
@@ -794,7 +800,7 @@ def inicioSesion(opc, opc2):
                 i += 1
         contrasenaUsuario = getpass.getpass("Ingrese su contraseña: ").strip()
         limpiarConsola()
-        comprobacionLen(contrasenaUsuario,15)
+        comprobacionLenContra(contrasenaUsuario,15)
         flagContra= False
         if i != 10 and datos[1][i] == contrasenaUsuario:
                 flagContra = True
@@ -824,7 +830,6 @@ def inicioSesion(opc, opc2):
             if salida == "S":
                 intentos = 0
         else:
-            limpiarConsola()
             print("Acceso denegado, intentelo nuevamente")
             intentos = intentos + 1            
 
